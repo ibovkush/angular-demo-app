@@ -10,16 +10,11 @@ const routerConfig: ExtraOptions = {
 
 const routes: Routes = [
   {
-    path: 'form',
-    // loadChildren: () => import('@cont/auth/auth.module').then((m) => m.AuthModule),
+    path: 'trades',
+    loadChildren: () => import('@cont/trades/trades.module').then((m) => m.TradesModule),
   },
-  {
-    path: 'chart',
-    canActivate: [],
-    // loadChildren: () => import('@cont/admin/admin.module').then((m) => m.AdminModule),
-  },
-  { path: '', redirectTo: 'form', pathMatch: 'full' },
-  { path: '**', redirectTo: 'form' },
+  { path: '', redirectTo: 'trades', pathMatch: 'full' },
+  { path: '**', redirectTo: 'trades' },
 ];
 
 @NgModule({
