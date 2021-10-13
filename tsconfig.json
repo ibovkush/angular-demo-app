@@ -2,7 +2,8 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "./",
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": "./src",
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
     "strict": true,
@@ -14,12 +15,30 @@
     "experimentalDecorators": true,
     "moduleResolution": "node",
     "importHelpers": true,
-    "target": "es2015",
+    "target": "es2017",
     "module": "es2020",
-    "lib": [
-      "es2018",
-      "dom"
-    ]
+    "lib": ["es2018", "dom"],
+    "paths": {
+      "@s/*": ["app/services/*"],
+      "@c/*": ["app/components/*"],
+      "@t/*": ["app/types/*"],
+      "@p/*": ["app/pipes/*"],
+      "@d/*": ["app/directives/*"],
+      "@m/*": ["app/models/*"],
+      "@h/*": ["app/helpers/*"],
+      "@r/*": ["app/resolvers/*"],
+      "@u/*": ["app/utility/*"],
+      "@g/*": ["app/guards/*"],
+      "@e/*": ["app/enums/*"],
+      "@l/*": ["app/layout/*"],
+      "@int/*": ["app/interceptors/*"],
+      "@data/*": ["app/data/*"],
+      "@cont/*": ["app/containers/*"],
+      "@dec/*": ["app/decorators/*"],
+
+      "@mdl/*": ["app/modal/*"],
+      "@env/*": ["environments/*"]
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
