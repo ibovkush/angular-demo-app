@@ -1,0 +1,68 @@
+@import '../../../../../scss/values';
+@import '../../../../../scss/colors';
+
+
+:host{
+
+  .no-data-container {
+    text-align: center;
+    padding: 20px;
+    font-size: 20px;
+  }
+
+  .small-column-200 {
+    min-width: 200px;
+    flex-grow: 0;
+  }
+
+  .small-column-250 {
+    min-width: 250px;
+    flex-grow: 0;
+  }
+
+  .button-column {
+    min-width: 60px;
+    max-width: 60px;
+  }
+
+  .main-header-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    flex-direction: row;
+    border-top: $light-border;
+    border-left: $light-border;
+    border-right: $light-border;
+    padding: $small-indent;
+
+    &.single-row {
+      border-bottom: $light-border;
+    }
+
+    &.controls {
+      justify-content: space-between;
+      gap: $big-indent;
+
+      .buttons {
+        margin-left: -$small-indent/2;
+        margin-right: -$small-indent/2;
+
+        .simple-button {
+          min-width: unset;
+          padding: $small-indent;
+          margin: 0 $small-indent/2;
+        }
+      }
+    }
+
+    .total-container {
+      flex-grow: 0;
+      text-transform: uppercase;
+      font-size: 20px;
+    }
+
+    .paginator-container {
+      flex-grow: 1;
+    }
+  }
+}

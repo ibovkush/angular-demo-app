@@ -1,0 +1,76 @@
+<div class="main-header-container">
+  <div class="total-container">
+    {{ totalLablel || 'Total Records:' }}
+    <span>{{ (data$ | async)?.totalRecordsCount === 0 ? '-' : (data$ | async)?.totalRecordsCount }}</span>
+  </div>
+  <div class="paginator-container">
+    <mat-paginator
+      [disabled]="isLoading"
+      [length]="(data$ | async)?.totalRecordsCount || 0"
+      [pageSizeOptions]="pageSizes"
+    ></mat-paginator>
+  </div>
+</div>
+<mat-table
+  [dataSource]="(data$ | async)?.items"
+  class=""
+  matSort
+  [matSortActive]="defaultSortColumn"
+  matSortDisableClear
+  matSortDirection="asc"
+>
+  <!-- Position Column -->
+
+  <ng-container *ngFor="let column of columns$ | async" [matColumnDef]="column.field">
+    <span *ngIf="!column.isButtonColumn">
+      <mat-header-cell *matHeaderCellDef [ngClass]="{ 'no-search': !column.hasInlineFilter }" [ngClass]="column.headerCssClass"
+        ><span *ngIf="column.title" [mat-sort-header]="column.field" disableClear [disabled]="!column.hasSort">{{
+          column.title
+        }}</span>
+        <span *ngIf="!column.title"> &nbsp; </span>
+
+        <div *ngIf="column.hasInlineFilter">
+          <input type="text" [formControl]="field(column.field)" />
+        </div>
+      </mat-header-cell>
+
+      <mat-cell *matCellDef="let element" [ngClass]="column.cssClass">
+        <span *ngIf="column.isCustom">
+          {{ customValues(column.field, element) | async }}
+        </span>
+        <span *ngIf="!column.isCustom">
+          <span *ngIf="column.isClickable">
+            <a routerLink="{{ column.urlMap(element) }}">{{ element[column.field] }}</a>
+          </span>
+          <span *ngIf="!column.isClickable">
+            {{ element[column.field] }}
+          </span>
+        </span>
+      </mat-cell>
+    </span>
+    <span *ngIf="column.isButtonColumn">
+      <mat-header-cell *matHeaderCellDef [ngClass]="column.headerCssClass" class="button-column"> </mat-header-cell>
+
+      <mat-cell *matCellDef="let element; let index = index" [ngClass]="column.cssClass" class="button-column">
+        <button
+          mat-icon-button
+          (click)="buttonClick.emit({ fieldName: column.field, index: index, item: element })"
+          [disabled]="isLoading"
+        >
+          <mat-icon>{{ column.buttonColumnIcon || 'edit' }}</mat-icon>
+        </button>
+      </mat-cell>
+    </span>
+  </ng-container>
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+</mat-table>
+<ng-content select="[custom-columns]"></ng-content>
+
+<div *ngIf="!(data$ | async)?.items?.length && !isLoading" class="no-data-container">
+  <span *ngIf="isSearchEmpty">You need to start search first</span>
+  <span *ngIf="!isSearchEmpty">No data matching the filter</span>
+</div>
+<div *ngIf="isLoading && !(data$ | async)?.items?.length" class="no-data-container">
+  <span>Loading...</span>
+</div>
