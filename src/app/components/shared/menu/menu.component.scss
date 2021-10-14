@@ -1,4 +1,9 @@
 @import '../../../../scss/values';
+
+:host{
+  padding: 0 $small-indent;
+}
+
 .menu-container{
   padding: $small-indent;
 
