@@ -1,15 +1,19 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { formatCurrency } from '@angular/common';
+import { AfterViewInit, ChangeDetectorRef, Component, Inject, LOCALE_ID, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ButtonColumnClickEventModel } from '@c/shared/generic-mat-table/generic-mat-table.models';
+import { EditTradeFormComponent } from '@c/trades/edit-trade-form/edit-trade-form.component';
+import { EditTradeFormModel } from '@c/trades/edit-trade-form/edit-trade-form.model';
 import { TradeInfoModel } from '@data/models/trade-info.model';
 import { TradeInfoService } from '@data/services/trade-info.service';
+import { environment } from '@env/environment';
 import { BaseSearchResponseViewModel } from '@m/shared/network.models';
 import { getDefaultSearchRequest, SearchRequest } from '@m/shared/search.models';
 import { GenericMatTableCustomValuesSource } from '@t/generic-mat-table.types';
-import moment, { Moment } from 'moment';
+import moment from 'moment';
 import { merge, of, Subject } from 'rxjs';
-import { map, skip, switchMap, tap } from 'rxjs/operators';
+import { map, skip, switchMap, takeUntil, tap } from 'rxjs/operators';
 
-import { columns, TradeInfoTableSearchModel } from './trades-list-container.models';
+import { columns, toFormModelMapper, toServiceModelMapper, TradeInfoTableSearchModel } from './trades-list-container.models';
 
 @Component({
   selector: 'demo-trades-list-container',
@@ -17,6 +21,8 @@ import { columns, TradeInfoTableSearchModel } from './trades-list-container.mode
   styleUrls: ['./trades-list-container.component.scss'],
 })
 export class TradesListContainerComponent implements OnInit, OnDestroy, AfterViewInit {
+  @ViewChild('demoEditTradeForm') editTradeForm: EditTradeFormComponent;
+
   resultObj$: Subject<BaseSearchResponseViewModel<TradeInfoModel>> = new Subject();
 
   tableSearchObj$: Subject<SearchRequest<TradeInfoModel>> = new Subject();
@@ -30,23 +36,24 @@ export class TradesListContainerComponent implements OnInit, OnDestroy, AfterVie
 
   private defaultSortField = columns.find((col) => col.isDefaultSortField)?.field ?? (columns.length > 0 ? columns[0].field : '');
 
-  constructor(public tradeInfoService: TradeInfoService, private _cdr: ChangeDetectorRef) {
+  editedRecord: TradeInfoModel;
+
+  constructor(public tradeInfoService: TradeInfoService, private _cdr: ChangeDetectorRef, @Inject(LOCALE_ID) private _locale: string) {
     this._searchObj = getDefaultSearchRequest<TradeInfoTableSearchModel>('Ascending', this.defaultSortField);
-    tradeInfoService.entities$.subscribe((result) => {
-      console.log(result);
-    });
   }
 
   customValuesSource: GenericMatTableCustomValuesSource<TradeInfoModel> = (field, item) => {
     switch (field) {
       case 'entryDate':
-        return of(`${this.getFormatedDate(item.entryDate)}`);
+        return of(`${moment(item.entryDate).format(environment.dateFormatMoment)}`);
       case 'exitDate':
-        return of(`${this.getFormatedDate(item.exitDate)}`);
+        return of(`${moment(item.exitDate).format(environment.dateFormatMoment)}`);
       case 'entryPrice':
-        return of(`$${item.entryPrice.toFixed(2)}`);
+        return of(`${formatCurrency(item.entryPrice, this._locale, '$')}`);
       case 'exitPrice':
-        return of(`$${item.exitPrice.toFixed(2)}`);
+        return of(`${formatCurrency(item.exitPrice, this._locale, '$')}`);
+      case 'profit':
+        return of(`${formatCurrency(item.exitPrice - item.entryPrice, this._locale, '$')}`);
       default:
         return of('');
     }
@@ -100,23 +107,54 @@ export class TradesListContainerComponent implements OnInit, OnDestroy, AfterVie
         this.isLoading = false;
         this.resultObj$.next(value);
       });
+    this.editTradeForm.clearForm();
     this._cdr.detectChanges();
   }
 
   buttonClicked(event: ButtonColumnClickEventModel<TradeInfoModel>): void {
     switch (event.fieldName) {
       case 'remove':
-        console.log(`remove ${event.item.id.toString()} clicked`);
+        this.removeRecord(event.item);
         break;
       case 'edit':
-        console.log(`edit ${event.item.id.toString()} clicked`);
+        this.startToEditRecord(event.item);
         break;
       default:
         break;
     }
   }
 
-  private getFormatedDate(model: Moment): string {
-    return `${model.month() + 1}/${model.date()}/${model.year()}`;
+  startToEditRecord(model: TradeInfoModel): void {
+    // TODO: add confirm if some record already edited;
+
+    this.editedRecord = model;
+    const formModel = toFormModelMapper(model);
+    this.editTradeForm.value = formModel;
+  }
+
+  removeRecord(model: TradeInfoModel): void {
+    this.editTradeForm.disableForm();
+    // TODO: add confirm;
+    this.tradeInfoService.delete(model).subscribe((result) => {
+      this.editTradeForm.enableFrom();
+    });
+  }
+
+  submitClicked(model: EditTradeFormModel): void {
+    if (model === null) {
+      return;
+    }
+
+    this.editTradeForm.disableForm();
+
+    const serviceModel = { ...toServiceModelMapper(model), id: this.editedRecord ? this.editedRecord.id : null };
+
+    this.tradeInfoService
+      .upsert(serviceModel)
+      .pipe(takeUntil(this._destroyed))
+      .subscribe((result) => {
+        this.editTradeForm.enableFrom();
+        this.editTradeForm.clearForm();
+      });
   }
 }

@@ -6,8 +6,16 @@
     height: 100%;
     .page-container{
       width: 100%;
-
       padding: $small-indent;
+
+      .form-container{
+        width: 300px;
+      }
+
+      .buttons-container{
+        padding: $small-indent 0;
+      }
+
       .table-container{
         width: 100%;
 

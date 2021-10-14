@@ -1,15 +1,60 @@
 <div class="page-container">
-  <div class="table-container">
-    <demo-generic-mat-table
-      [columns$]="columns$"
-      (search)="tableSearchObj$.next($event)"
-      [data$]="resultObj$"
-      [isLoading]="isLoading"
-      [isSearchEmpty]="isSearchEmpty"
-      [customValues]="customValuesSource"
-      (buttonClick)="buttonClicked($event)"
-      totalLablel="Total Trade Recors:"
-    >
-    </demo-generic-mat-table>
+  <div class="page-title">
+    <h2>Trade Info Page</h2>
+  </div>
+  <hr />
+  <div class="form-container">
+    <div>
+      <h3>Trade info form</h3>
+    </div>
+    <demo-edit-trade-form #demoEditTradeForm></demo-edit-trade-form>
+  </div>
+  <div class="buttons-container">
+    <div class="custom-pannel-container inline">
+      <div class="custom-pannel">
+        <button
+          mat-raised-button
+          color="primary"
+          type="button"
+          [disabled]="demoEditTradeForm.disabled$ | async"
+          (click)="submitClicked(demoEditTradeForm.value)"
+        >
+          Submit
+        </button>
+      </div>
+      <div class="custom-pannel">
+        <button mat-raised-button color="accent" [disabled]="demoEditTradeForm.disabled$ | async" (click)="demoEditTradeForm.resetForm()">
+          Reset
+        </button>
+      </div>
+      <div class="custom-pannel" *ngIf="editedRecord">
+        <button
+          mat-raised-button
+          [disabled]="demoEditTradeForm.disabled$ | async"
+          (click)="demoEditTradeForm.clearForm(); editedRecord = null"
+        >
+          Cancel
+        </button>
+      </div>
+    </div>
+    <hr />
+
+    <div class="table-container">
+      <div>
+        <h3>Trade info list</h3>
+      </div>
+
+      <demo-generic-mat-table
+        [columns$]="columns$"
+        (search)="tableSearchObj$.next($event)"
+        [data$]="resultObj$"
+        [isLoading]="isLoading"
+        [isSearchEmpty]="isSearchEmpty"
+        [customValues]="customValuesSource"
+        (buttonClick)="buttonClicked($event)"
+        totalLablel="Total Trade Recors:"
+      >
+      </demo-generic-mat-table>
+    </div>
   </div>
 </div>
