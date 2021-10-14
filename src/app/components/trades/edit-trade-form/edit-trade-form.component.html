@@ -1,0 +1,31 @@
+<form [formGroup]="form" novalidate>
+  <div>
+    <mat-form-field appearance="outline" matTooltip="Dates range ">
+      <mat-label>Enter trade date range</mat-label>
+      <mat-date-range-input [rangePicker]="picker" [max]="currentDate">
+        <input matStartDate formControlName="entryDate" placeholder="Entry Date" />
+        <input matEndDate formControlName="exitDate" placeholder="Exit date" />
+      </mat-date-range-input>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-date-range-picker #picker></mat-date-range-picker>
+      <mat-error *ngIf="isError('entryDate', 'required')">Entry date required</mat-error>
+      <mat-error *ngIf="isError('exitDate', 'required') && !isError('entryDate', 'required')">Exit date required</mat-error>
+      <mat-error *ngIf="isError('entryDate', 'matStartDateInvalid')">Invalid Entry date</mat-error>
+      <mat-error *ngIf="isError('exitDate', 'matEndDateInvalid')">Invalid Exit date</mat-error>
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field appearance="outline" matTooltip="Entry Price">
+      <mat-label>Entry Price</mat-label>
+      <input matInput type="tel" formControlName="entryPrice" currencyMask />
+      <mat-error *ngIf="isError('entryPrice', 'required')">Entry Price is required</mat-error>
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field appearance="outline" matTooltip="Exit Price">
+      <mat-label>Exit Price</mat-label>
+      <input matInput type="tel" formControlName="exitPrice" currencyMask />
+      <mat-error *ngIf="isError('exitPrice', 'required')">Exit Price is required</mat-error>
+    </mat-form-field>
+  </div>
+</form>
