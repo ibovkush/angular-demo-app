@@ -1,11 +1,20 @@
+import 'zone.js/plugins/zone-error';
+
+import { StageType } from '@e/stage-type.enum';
+import { EnvironmentModel } from '@m/common/environment.model';
+
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
-import 'zone.js/plugins/zone-error';
 
-
-export const environment = {
+export const environment: EnvironmentModel = {
   production: false,
+  apiUrl: '[demo]',
+  apiTimeoutMs: 0,
+  debounceTimeMS: 600,
+  dateFormat: 'MM/dd/yyyy',
+  pageSizes: [10, 20, 50],
+  stageType: StageType.local,
 };
 
 /*
