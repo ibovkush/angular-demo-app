@@ -9,6 +9,7 @@ const entityMetadata: EntityMetadataMap = {
   TradeInfo: {
     sortComparer: getDateComparer<TradeInfoModel>((m) => m.entryDate),
     filterFn: universalFilterFunc,
+    selectId: (model: TradeInfoModel) => (model.id ? model.id.toString() : ''),
   },
 };
 

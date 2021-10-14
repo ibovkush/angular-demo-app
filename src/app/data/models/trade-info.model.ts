@@ -1,10 +1,9 @@
 import { Guid } from 'guid-typescript';
-import { Moment } from 'moment';
 
 export interface TradeInfoModel {
-  readonly id: Guid;
-  readonly entryDate: Moment;
+  readonly id?: Guid;
+  readonly entryDate: string;
   readonly entryPrice: number;
-  readonly exitDate: Moment;
+  readonly exitDate: string;
   readonly exitPrice: number;
 }
