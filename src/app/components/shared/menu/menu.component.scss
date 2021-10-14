@@ -1,0 +1,11 @@
+@import '../../../../scss/values';
+.menu-container{
+  padding: $small-indent;
+
+  border-bottom: $light-border;
+
+  .mat-icon-button{
+    border: $light-border;
+    border-radius: 2px;
+  }
+}
