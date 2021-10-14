@@ -12,6 +12,12 @@ const routes: Routes = [
         loadChildren: () => import('./trades-list-container/trades-list-container.module').then((m) => m.TradesListContainerModule),
       },
       {
+        path: 'chart',
+        pathMatch: 'full',
+
+        loadChildren: () => import('./trades-chart-container/trades-chart-container.module').then((m) => m.TradesChartContainerModule),
+      },
+      {
         path: '',
         redirectTo: 'list',
         pathMatch: 'full',
