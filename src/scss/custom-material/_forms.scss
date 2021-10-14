@@ -1,0 +1,261 @@
+@import '~@angular/material/theming';
+
+@mixin display-label-anyway() {
+  transform: none;
+  width: 100%;
+}
+
+@mixin get-border-with-anti-aliasing($border-color) {
+  border: 1px solid $border-color;
+  box-shadow: 0 0 1px 0px $border-color inset, 0 0 1px 0px $border-color; // add anti-aliasing
+}
+
+.demo-app {
+  .mat-form-field,
+  fd-infinit-scroll-select {
+    width: 100%;
+  }
+
+  .mat-checkbox {
+    .mat-checkbox-layout {
+      margin-bottom: 0;
+    }
+
+    .mat-checkbox-label {
+      opacity: 0.5;
+    }
+  }
+
+  .mat-checkbox.inline {
+    .mat-checkbox-layout {
+      margin-bottom: 0;
+    }
+  }
+
+  .mat-checkbox.mat-checkbox-checked .mat-checkbox-label {
+    opacity: 1;
+  }
+
+  mat-form-field {
+    .mat-form-field-wrapper {
+      padding-bottom: 1.1em;
+    }
+
+    .mat-form-field-suffix {
+      .mat-icon-button {
+        padding: 0;
+        min-width: 30px;
+        min-height: 30px;
+        font-size: 22px;
+      }
+    }
+
+    .mat-form-field-infix {
+      padding: 0.4em 0px;
+      .mat-form-field-label-wrapper {
+        top: -1.5em;
+      }
+    }
+  }
+
+  .mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
+    transform: translateY(-1.1em) scale(0.75);
+    width: 133.33333%;
+  }
+
+  .mat-form-field-appearance-outline .mat-form-field-prefix
+  //,.mat-form-field-appearance-outline .mat-form-field-suffixХ
+  {
+    top: 0.08em;
+  }
+
+  .highlighted {
+    mat-form-field {
+      .mat-form-field-outline {
+        background-color: $highlight-color;
+      }
+    }
+  }
+
+  .form-horisontal {
+    --min-label-width: 225px;
+    mat-form-field {
+      .mat-form-field-infix {
+        display: flex;
+        flex-direction: row-reverse;
+        border-top: 4px solid transparent;
+
+        .mat-input-element,
+        .mat-select {
+          // border: 1px solid;
+          flex-grow: 1;
+        }
+
+        .mat-form-field-label-wrapper {
+          position: relative;
+          left: unset;
+          top: unset;
+          display: block;
+          padding: 0;
+          height: unset;
+          flex: 1 1 0;
+          min-width: var(--min-label-width);
+
+          .mat-form-field-label {
+            top: unset;
+            margin: 0;
+            display: block;
+            @include display-label-anyway();
+          }
+        }
+      }
+
+      &.mat-form-field-can-float {
+        &.mat-form-field-should-float .mat-form-field-label,
+        .mat-input-server:focus + .mat-form-field-label-wrapper .mat-form-field-label {
+          @include display-label-anyway();
+        }
+
+        // @breaking-change 8.0.0 will rely on AutofillMonitor instead.
+        .mat-form-field-autofill-control:-webkit-autofill + .mat-form-field-label-wrapper .mat-form-field-label {
+          @include display-label-anyway();
+        }
+      }
+    }
+
+    &.legacy {
+      $config: mat-get-color-config($fd-app-theme);
+      $primary: map-get($config, primary);
+      $warn: map-get($config, warn);
+      $foreground: map-get($config, foreground);
+      $is-dark-theme: map-get($config, is-dark);
+
+      $border-color-base: mat-color($foreground, divider, if($is-dark-theme, 0.7, 0.42));
+      $border-color-warn: mat-color($warn, text);
+      $border-focused-color: mat-color($primary, text);
+
+      mat-form-field {
+        .mat-form-field-infix {
+          padding: 0;
+          .mat-input-element,
+          .mat-select {
+            padding: 4px;
+            border-radius: 4px;
+            @include get-border-with-anti-aliasing($border-color-base);
+          }
+
+          .mat-form-field-label-wrapper {
+            display: flex;
+            flex-direction: column;
+            place-content: center;
+          }
+        }
+
+        .mat-form-field-underline {
+          display: none;
+        }
+
+        .mat-error {
+          margin-left: var(--min-label-width);
+        }
+
+        &.mat-focused {
+          .mat-input-element,
+          .mat-select {
+            @include get-border-with-anti-aliasing($border-focused-color);
+          }
+        }
+
+        &.mat-form-field-invalid {
+          .mat-input-element,
+          .mat-select {
+            @include get-border-with-anti-aliasing($border-color-warn);
+          }
+        }
+      }
+    }
+  }
+}
+
+.error-container {
+  min-height: $error-height;
+  font-size: $error-height;
+  line-height: $error-height;
+  padding: 0 1em;
+}
+
+.radio-group {
+  margin: 0.25em 0;
+  padding-bottom: 1.1em;
+  //min-height: $radio-field-height;
+  // padding: 0 $small-indent;
+  position: relative;
+
+  .mat-form-field-subscript-wrapper {
+    padding: 0 1em;
+  }
+
+  .radio-field {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 0.275em solid transparent;
+    padding: 0.5em 0px;
+
+    label {
+      margin-bottom: 0;
+
+      &.title {
+        margin-left: 12px;
+        color: rgba(0, 0, 0, 0.6);
+      }
+    }
+
+    .mat-radio-button {
+      padding-left: $small-indent;
+    }
+  }
+}
+
+.form-checkbox {
+  margin: 0.25em 0;
+  padding-bottom: 1.1em;
+  position: relative;
+
+  .mat-form-field-subscript-wrapper {
+    padding: 0 1em;
+  }
+
+  .checkbox-field {
+    border-top: 0.275em solid transparent;
+    padding: 0.5em 0px;
+
+    label {
+      margin-bottom: 0;
+      display: flex;
+      justify-content: space-between;
+      padding-left: $small-indent;
+
+      .mat-checkbox-inner-container {
+        margin-right: 0;
+      }
+
+      .mat-checkbox-label {
+        line-height: 20px;
+      }
+    }
+  }
+}
+
+.mat-label,
+label {
+  .mat-progress-spinner {
+    display: inline-block;
+    vertical-align: middle;
+  }
+}
+
+.mat-focused .mat-form-field-required-marker,
+.mat-form-field-required-marker {
+  color: $danger-color;
+}

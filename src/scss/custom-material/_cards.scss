@@ -1,0 +1,27 @@
+.mat-card.form-card {
+  padding: 0;
+
+  .mat-card-header {
+    padding: $small-indent;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    background-color: $panel-header-background-color;
+    border-bottom: $light-border;
+
+    .mat-card-header-text {
+      margin-left: $small-indent;
+
+      .mat-card-title {
+        margin-bottom: 0;
+      }
+    }
+
+    &.mat-error {
+      display: flex;
+    }
+  }
+
+  .mat-card-content {
+    padding: $small-indent;
+  }
+}

@@ -1,0 +1,102 @@
+@mixin getStateStyles($color, $icon){
+  .alert-cstm {
+    border-color: $color;
+  }
+
+  .alert-icon {
+    color: $color;
+  }
+
+  .alert-content h4 {
+    color: $color;
+  }
+
+  .icon-:before {
+    content: $icon;
+  }
+}
+
+.alert-holder-fixed {
+  .alert-cstm {
+    background: #eeeeee;
+    border-width: 0 0 0 6px;
+    box-shadow: 0 0 1px #dddddd;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 10px;
+
+    .close {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      font-size: 14px;
+      color: inherit;
+    }
+
+    .alert-icon {
+      padding: 0;
+      width: 75px;
+      float: left;
+      text-align: center;
+      font-size: 30px;
+    }
+
+    .alert-content {
+      width: 200px;
+      padding: 0;
+      float: left;
+
+      h4 {
+        margin: 0 0 5px;
+        font-size: 15px;
+      }
+    }
+  }
+
+  .icon-:before {
+    font-family: "Material Icons";
+    font-style: normal;
+    font-weight: 400;
+  }
+
+
+  &.alert-cstm-warning {
+    @include getStateStyles(#f19b11, "report_problem");
+  }
+
+  &.alert-cstm-danger {
+    @include getStateStyles(#e84c3d, "error_outline");
+  }
+
+  &.alert-cstm-success {
+    @include getStateStyles(#18bb9c, "check_circle");
+  }
+
+  &.alert-cstm-info {
+    @include getStateStyles(#3598db, "announcement");
+  }
+
+}
+
+@media (max-width: 767px) {
+  /* line 87, ../scss/_modal.scss */
+  .alert-holder-fixed {
+    top: 5%;
+    padding: 10px;
+    width: 280px;
+    .alert-cstm .alert-content {
+      width: 150px;
+    }
+  }
+}
+
+.toast-container {
+  pointer-events: auto;
+  top: 94px;
+  right: 40px;
+  z-index: 9999;
+  width: 330px;
+  .alert-holder-fixed {
+    position: relative;
+  }
+}

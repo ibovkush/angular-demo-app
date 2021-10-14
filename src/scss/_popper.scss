@@ -1,0 +1,64 @@
+$popper-color: #eee;
+
+.popper {
+  display: inline-block;
+  background: $popper-color;
+  border-radius: 3px;
+  padding: 10px;
+  z-index: 20;
+  box-shadow: 0px 2px 4px 2px rgba(0, 0, 0, 0.23);
+
+  &[x-placement^="bottom"] {
+    margin-top: 15px;
+  }
+
+  &[x-placement^="top"] {
+    margin-bottom: 15px;
+  }
+
+  &[x-placement^="right"] {
+    margin-left: 15px;
+  }
+
+  &[x-placement^="left"] {
+    margin-right: 15px;
+  }
+
+  &__arrow {
+    width: 0;
+    height: 0;
+    padding: 0;
+    margin: 0;
+    position: absolute;
+
+    border: {
+      style: solid;
+      width: 10px;
+      color: transparent;
+    }
+  }
+
+  &[x-placement^="top"] &__arrow {
+    border-bottom-width: 0;
+    border-top-color: $popper-color;
+    bottom: -10px;
+  }
+
+  &[x-placement^="bottom"] &__arrow {
+    border-top-width: 0;
+    border-bottom-color: $popper-color;
+    top: -10px;
+  }
+
+  &[x-placement^="right"] &__arrow {
+    border-left-width: 0;
+    border-right-color: $popper-color;
+    left: -10px;
+  }
+
+  &[x-placement^="left"] &__arrow {
+    border-right-width: 0;
+    border-left-color: $popper-color;
+    right: -10px;
+  }
+}

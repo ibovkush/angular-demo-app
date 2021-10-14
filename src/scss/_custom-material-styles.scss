@@ -1,0 +1,59 @@
+@import '~@angular/material/theming';
+@import './values';
+@import './colors';
+
+$custom-typography: mat-typography-config(
+  /* custom styles*/ $font-family: $font-family,
+  /*h1*/ $headline: mat-typography-level(28px, 38px, 600),
+  /*h2*/ $title: mat-typography-level(20px, 32px, 500),
+  /*h3*/ $subheading-2: mat-typography-level(16px, 40px, 400),
+  /*h4*/ $subheading-1: mat-typography-level(15px, 24px, 400),
+  $body-1: mat-typography-level(16px, 24px, 400),
+  $body-2: mat-typography-level(16px, 28px, 700),
+  $button: mat-typography-level(16px, 40px, 700),
+  $display-4: mat-typography-level(112px, 112px, 300, $letter-spacing: -0.05em),
+  $display-3: mat-typography-level(56px, 56px, 400, $letter-spacing: -0.02em),
+  $display-2: mat-typography-level(45px, 48px, 400, $letter-spacing: -0.005em),
+  $display-1: mat-typography-level(34px, 40px, 400),
+  $caption: mat-typography-level(12px, 20px, 400),
+  // Line-height must be unit-less fraction of the font-size.
+  $input: mat-typography-level(16px, 1.125, 400)
+);
+
+@include mat-core($custom-typography);
+
+$fd-app-primary: mat-palette($primary-pallete);
+$fd-app-accent: mat-palette($secondary-pallete);
+$fd-app-green: mat-palette($green-pallete);
+
+$fd-app-theme: mat-light-theme(
+  (
+    color: (
+      primary: $fd-app-primary,
+      accent: $fd-app-accent,
+    ),
+  )
+);
+
+$fd-app-theme-green: mat-light-theme(
+  (
+    color: (
+      primary: $fd-app-green,
+      accent: $fd-app-green,
+    ),
+  )
+);
+
+@include angular-material-theme($fd-app-theme);
+
+.fd-app {
+  .green-container {
+    @include angular-material-color($fd-app-theme-green);
+  }
+}
+
+@import 'custom-material/buttons';
+@import 'custom-material/forms';
+@import 'custom-material/cards';
+@import 'custom-material/tables';
+@import 'custom-material/tooltips';

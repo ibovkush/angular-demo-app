@@ -1,0 +1,27 @@
+@import 'colors';
+
+$font-family: Arial, Helvetica, sans-serif;
+$small-indent: 10px;
+$big-indent: 20px;
+
+$btn-v-pad: 10px;
+$btn-h-pad: 20px;
+$btn-font-size: 14px;
+
+$regular-font-shadow: 1px 1px rgba(0, 0, 0, 0.3);
+$btn-font-text-shadow: $regular-font-shadow;
+
+$btn-login-form-wdh: 290px;
+
+$simple-border: 1px solid $simple-border-color;
+$light-border: 1px solid $light-border-color;
+
+$header-height: 40px;
+$footer-height: 250px;
+
+$error-height: 12px;
+$radio-field-height: 65.89px;
+
+$mobile-width-trigger: 599px;
+
+$modal-icon-size: 40px;

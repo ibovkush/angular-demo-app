@@ -1,0 +1,31 @@
+.demo-app {
+  .mat-button,
+  .mat-raised-button,
+  .mat-icon-button,
+  .mat-stroked-button,
+  .mat-flat-button,
+  .mat-fab,
+  .mat-mini-fab {
+    &.focus,
+    &:focus {
+      outline: none;
+    }
+
+    &:not(.mat-icon-button) {
+      letter-spacing: 1px;
+      text-shadow: $btn-font-text-shadow;
+      padding: $btn-v-pad $btn-h-pad;
+      line-height: unset;
+      text-transform: uppercase;
+      min-width: 120px;
+      &.form-button {
+        font-size: 14px;
+        padding: 7px 10px;
+      }
+
+      @media screen and (max-device-width: $mobile-width-trigger) {
+        width: 100%;
+      }
+    }
+  }
+}
