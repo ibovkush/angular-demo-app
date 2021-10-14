@@ -1,1 +1,15 @@
-Here is a trades list container component
+<div class="page-container">
+  <div class="table-container">
+    <demo-generic-mat-table
+      [columns$]="columns$"
+      (search)="tableSearchObj$.next($event)"
+      [data$]="resultObj$"
+      [isLoading]="isLoading"
+      [isSearchEmpty]="isSearchEmpty"
+      [customValues]="customValuesSource"
+      (buttonClick)="buttonClicked($event)"
+      totalLablel="Total Trade Recors:"
+    >
+    </demo-generic-mat-table>
+  </div>
+</div>
