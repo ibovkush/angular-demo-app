@@ -7,5 +7,6 @@ export interface EnvironmentModel {
   debounceTimeMS: number;
   stageType: StageType;
   dateFormat: string;
+  dateFormatMoment: string;
   pageSizes: ReadonlyArray<number>;
 }

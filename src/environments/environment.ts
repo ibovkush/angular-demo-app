@@ -13,7 +13,8 @@ export const environment: EnvironmentModel = {
   apiTimeoutMs: 0,
   debounceTimeMS: 600,
   dateFormat: 'MM/dd/yyyy',
-  pageSizes: [10, 20, 50],
+  dateFormatMoment: 'MM/DD/yyyy',
+  pageSizes: [1, 10, 20, 50],
   stageType: StageType.local,
 };
 
