@@ -1,3 +1,4 @@
+@use 'sass:math';
 @import '../../../../../scss/values';
 @import '../../../../../scss/colors';
 
@@ -44,13 +45,13 @@
       gap: $big-indent;
 
       .buttons {
-        margin-left: -$small-indent/2;
-        margin-right: -$small-indent/2;
+        margin-left: math.div(-$small-indent, 2);
+        margin-right: math.div(-$small-indent, 2);
 
         .simple-button {
           min-width: unset;
           padding: $small-indent;
-          margin: 0 $small-indent/2;
+          margin: 0 math.div($small-indent, 2);
         }
       }
     }
