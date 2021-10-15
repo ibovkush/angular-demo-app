@@ -6,7 +6,7 @@ This is the boilerplate application created for testing purpose. It was generate
 1. Make sure you have installed last versions of node.js server and npm
 2. Pull code base to local folder
 3. Run `npm install` in console using selected folder
-4. Run of the commands listed bellow to run, test or develop the application
+4. Run one of the commands listed bellow to run, test or develop the application
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
