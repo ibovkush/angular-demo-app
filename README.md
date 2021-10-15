@@ -1,7 +1,12 @@
 # DemoApp
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.2.4.
+This is the boilerplate application created for testing purpose. It was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.2.10 and modified by Ivan Bovkush to correspond the testing requirements.
 
+## Prepare application
+1. Make sure you have installed last versions of node.js server and npm
+2. Pull code base to local folder
+3. Run `npm install` in console using selected folder
+4. Run of the commands listed bellow to run, test or develop the application
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
@@ -21,7 +26,3 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 ## Running end-to-end tests
 
 Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
