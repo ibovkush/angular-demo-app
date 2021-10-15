@@ -5,11 +5,13 @@ import { EditTradeFormComponent } from '@c/trades/edit-trade-form/edit-trade-for
 import { EditTradeFormModel } from '@c/trades/edit-trade-form/edit-trade-form.model';
 import { TradeInfoModel } from '@data/models/trade-info.model';
 import { TradeInfoService } from '@data/services/trade-info.service';
+import { ToastIconClasses } from '@e/toast-icon-classes';
 import { environment } from '@env/environment';
 import { BaseSearchResponseViewModel } from '@m/shared/network.models';
 import { getDefaultSearchRequest, SearchRequest } from '@m/shared/search.models';
 import { GenericMatTableCustomValuesSource } from '@t/generic-mat-table.types';
 import moment from 'moment';
+import { ToastrService } from 'ngx-toastr';
 import { merge, of, Subject } from 'rxjs';
 import { map, skip, switchMap, takeUntil, tap } from 'rxjs/operators';
 
@@ -38,7 +40,12 @@ export class TradesListContainerComponent implements OnInit, OnDestroy, AfterVie
 
   editedRecord: TradeInfoModel;
 
-  constructor(public tradeInfoService: TradeInfoService, private _cdr: ChangeDetectorRef, @Inject(LOCALE_ID) private _locale: string) {
+  constructor(
+    public tradeInfoService: TradeInfoService,
+    private _cdr: ChangeDetectorRef,
+    @Inject(LOCALE_ID) private _locale: string,
+    private _toastr: ToastrService
+  ) {
     this._searchObj = getDefaultSearchRequest<TradeInfoTableSearchModel>('Ascending', this.defaultSortField);
   }
 
@@ -135,9 +142,19 @@ export class TradesListContainerComponent implements OnInit, OnDestroy, AfterVie
   removeRecord(model: TradeInfoModel): void {
     this.editTradeForm.disableForm();
     // TODO: add confirm;
-    this.tradeInfoService.delete(model).subscribe((result) => {
-      this.editTradeForm.enableFrom();
-    });
+    this.tradeInfoService.delete(model).subscribe(
+      (result) => {
+        this._toastr.show(`Trade Info record removed successfully.`, 'Success', {
+          toastClass: ToastIconClasses.Success,
+        });
+        this.editTradeForm.enableFrom();
+      },
+      (error) => {
+        this._toastr.show('Remove operation failed.', 'Error', {
+          toastClass: ToastIconClasses.Error,
+        });
+      }
+    );
   }
 
   submitClicked(model: EditTradeFormModel): void {
@@ -152,9 +169,22 @@ export class TradesListContainerComponent implements OnInit, OnDestroy, AfterVie
     this.tradeInfoService
       .upsert(serviceModel)
       .pipe(takeUntil(this._destroyed))
-      .subscribe((result) => {
-        this.editTradeForm.enableFrom();
-        this.editTradeForm.clearForm();
-      });
+      .subscribe(
+        (result) => {
+          this._toastr.show(`Trade Info record ${this.editedRecord ? 'updated' : 'added'} successfully.`, 'Success', {
+            toastClass: ToastIconClasses.Success,
+          });
+          if (this.editedRecord) {
+            this.editedRecord = null;
+          }
+          this.editTradeForm.enableFrom();
+          this.editTradeForm.clearForm();
+        },
+        (error) => {
+          this._toastr.show('Add / update operation failed.', 'Error', {
+            toastClass: ToastIconClasses.Error,
+          });
+        }
+      );
   }
 }
