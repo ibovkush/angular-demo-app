@@ -14,7 +14,7 @@ export const environment: EnvironmentModel = {
   debounceTimeMS: 600,
   dateFormat: 'MM/dd/yyyy',
   dateFormatMoment: 'MM/DD/yyyy',
-  pageSizes: [1, 10, 20, 50],
+  pageSizes: [10, 20, 50],
   stageType: StageType.local,
 };
 
