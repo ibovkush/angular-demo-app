@@ -26,12 +26,8 @@ export class TradesChartContainerComponent implements OnInit, OnDestroy {
         let dateBalance = 0;
         while (iterationDate.isSameOrBefore(endDate, 'date')) {
           values.forEach((item) => {
-            if (moment(item.entryDate).isSame(iterationDate, 'date')) {
-              dateBalance -= item.entryPrice;
-            }
-
             if (moment(item.exitDate).isSame(iterationDate, 'date')) {
-              dateBalance += item.exitPrice;
+              dateBalance += item.exitPrice - item.entryPrice;
             }
           });
 
