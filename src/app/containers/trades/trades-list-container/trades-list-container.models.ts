@@ -26,7 +26,7 @@ export const columns: ReadonlyArray<TableColumnInfo<TradeInfoModel>> = [
   },
   {
     field: 'exitPrice',
-    title: 'Entry Price',
+    title: 'Exit Price',
     // hasSort: true,
     isCustom: true,
   },
