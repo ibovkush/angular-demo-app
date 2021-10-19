@@ -15,12 +15,16 @@ export class TradesChartContainerComponent implements OnInit, OnDestroy {
   private readonly _destroyed: Subject<void> = new Subject();
 
   constructor(public tradeInfoService: TradeInfoService) {
-    // TODO: add date range selector
-    const startDate = moment().add(-14, 'days').startOf('day');
-    const endDate = moment().endOf('day');
     this.chartModel$ = tradeInfoService.entities$.pipe(
       takeUntil(this._destroyed),
       map((values) => {
+        // TODO: add date range selector
+
+        const startDate = values
+          .map((item) => moment(item.exitDate))
+          .reduce((prev, current) => (prev.isSameOrBefore(current) ? prev : current), moment());
+        const endDate = moment().endOf('day');
+
         const datesData: Array<TradeBalanceChartItemModel> = [];
         const iterationDate = moment(startDate);
         let dateBalance = 0;
