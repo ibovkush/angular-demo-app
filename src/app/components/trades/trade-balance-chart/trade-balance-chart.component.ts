@@ -3,7 +3,7 @@ import { environment } from '@env/environment';
 import { ChartOptions } from '@t/chart.types';
 import { ApexAxisChartSeries, ApexTitleSubtitle, ChartComponent } from 'ng-apexcharts';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, share } from 'rxjs/operators';
 
 import { TradeBalanceChartModel } from './trade-balance-chart.models';
 
@@ -24,7 +24,8 @@ export class TradeBalanceChartComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    this.chartSeries$ = this.data$.pipe(
+    const repeatable$ = this.data$.pipe(share());
+    this.chartSeries$ = repeatable$.pipe(
       map((data) => [
         {
           name: 'balance',
@@ -36,7 +37,7 @@ export class TradeBalanceChartComponent implements OnInit {
       ])
     );
 
-    this.chartTitle$ = this.data$.pipe(
+    this.chartTitle$ = repeatable$.pipe(
       map((data) => ({
         text: `Balance ${data.dateFrom.format(environment.dateFormatMoment)} - ${data.dateTo.format(environment.dateFormatMoment)}`,
         align: 'center',
